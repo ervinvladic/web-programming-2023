@@ -2,6 +2,7 @@
 
 ## Done by
 - [Ervin Vladić](https://github.com/ervinvladic)
+- [Tin Radišić](https://github.com/TinRadisic)
 
 ## Description
 
