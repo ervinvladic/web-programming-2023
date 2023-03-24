@@ -25,14 +25,24 @@ class JobDao{
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  /* Method used to read individual job objects from database */
+  public function get_by_id($id){
+    $stmt = $this->conn->prepare("SELECT * FROM job WHERE id = :id");
+    $stmt->execute(['id' => $id]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return reset($result);
+  }
+
   /**
   * Method used to add job to the database
   * $job_name refers to job name
   * $job_description refers to description of the job
   */
-  public function add($job_name, $job_description){
-    $stmt = $this->conn->prepare("INSERT INTO job (job_name,job_description) VALUES (:job_name, :job_description)");
-    $stmt->execute(['job_name' => $job_name, 'job_description' => $job_description]);
+  public function add($jobs){
+    $stmt = $this->conn->prepare("INSERT INTO job (job_name, job_description) VALUES (:job_name, :job_description)");
+    $stmt->execute($jobs);
+    $jobs['id'] = $this->conn->lastInsertId();
+    return $jobs;
   }
 
   /**
@@ -47,9 +57,10 @@ class JobDao{
   /**
   * Update job in the database(id,job_name and job_description passed)
   */
-  public function update($id, $job_name, $job_description){
+  public function update($jobs){
     $stmt = $this->conn->prepare("UPDATE job SET job_name=:job_name, job_description=:job_description WHERE id=:id");
-    $stmt->execute(['id' => $id, 'job_name' => $job_name, 'job_description' => $job_description]);
+    $stmt->execute($jobs);
+    return $jobs;
   }
 
 }
