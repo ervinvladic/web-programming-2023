@@ -10,7 +10,7 @@ class Config {
     }
 
     public static function DB_PASSWORD(){
-        return '0000';
+        return '01191911';
     }
 
     public static function DB_SCHEMA(){
