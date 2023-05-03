@@ -26,12 +26,13 @@ Flight::route('POST /job', function(){
 Flight::route('PUT /job/@id', function($id){
   $data = Flight::request()->data->getData();
   Flight::json(Flight::jobService()->update($id, $data));
+  Flight::json(["message" => "Updated"]);
 });
 
 
 Flight::route('DELETE /job/@id', function($id){
   Flight::jobService()->delete($id);
-  Flight::json(["message" => "deleted"]);
+  Flight::json(["message" => "Deleted"]);
 });
 
 ?>
