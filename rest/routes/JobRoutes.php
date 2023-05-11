@@ -26,7 +26,6 @@ Flight::route('POST /job', function(){
 Flight::route('PUT /job/@id', function($id){
   $data = Flight::request()->data->getData();
   Flight::json(Flight::jobService()->update($id, $data));
-  Flight::json(["message" => "Updated"]);
 });
 
 

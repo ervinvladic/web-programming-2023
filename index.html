@@ -5,6 +5,16 @@
   <meta charset="utf-8">
   <title>radnikba</title>
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+  <style>
+    .error{
+      color:red;
+    }
+    .hidden {
+      display: none;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -15,114 +25,60 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Naslovna</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="#" tabindex="page" aria-disabled="true">Uredi profil</a>
-            </li>
+
             <li class="nav-item">
               <a class="nav-link active" href="#" tabindex="page" aria-disabled="true">O nama</a>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="" aria-label="">
-            <button class="btn btn-outline-light" type="submit">Pretraži</button>
-          </form>
         </div>
       </div>
     </nav>
   </header>
 
   <main>
-    <div class="container marketing" style="margin-top:100px;">
-      <div id="job-list" class="row">
-        <div class="text-center">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+    <div class="bg-image img-fluid d-flex justify-content-center align-items-center"
+       style="background-image: url('slika.jpg'); height: 50vh; background-repeat:no-repeat;">
+       <h1 class="text-center text-light"style="margin-top:110px;">Dobrodošli na Radnikba!<br>Platforma za oglašavanje radnika</h1>
+    </div>
+
+
+     <div class="container marketing" style="margin-top:30px;">
+
+        <div class="text-center d-grid gap-2 col-3 mx-auto">
+          <button id="addjob" class="btn btn-info text-light btn-lg " data-bs-toggle="modal" data-bs-target="#addJobModal">Dodaj posao</button>
         </div>
-      </div><!-- /.row -->
+
+       <div id="job-list" class="row">
+         <div class="text-center">
+           <div class="spinner-border text-primary" role="status">
+             <span class="visually-hidden">Loading...</span>
+           </div>
+         </div>
+       </div>
+     </div><!-- /.row -->
 
   </main>
 </body>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
-
-<script>
-  // ajax get request from API
-  getJob();
-
-  function getJob(){
-    $.get("rest/job", function(data) {
-
-      $("#job-list").html("");
-
-      var html = "";
-      for(let i = 0; i < data.length; i++){
-        html += `
-        <div class="col-lg-4">
-          <h2>`+ data[i].job_name +`</h2>
-          <p>`+ data[i].job_description +`</p>
-          <p>
-            <button type="button" class="btn btn-primary job-button" onclick="showModal(`+data[i].job_id+`)" >
-              Prikaži više
-            </button>
-          </p>
-        </div>`;
-      }
-      $("#job-list").html(html);
-      console.log(data);
-    });
-  }
-
-  function showModal(job_id){
-    $('.job-button').attr('disabled', true);
-    $.get('rest/job/'+job_id, function(data){
-      console.log(data);
-      $("#job_name").val(data.job_name);
-      $("#job_id").val(data.job_id);
-      $("#job_description").val(data.job_description);
-      $("#exampleModal").modal("show");
-      $('.job-button').attr('disabled', false);
-    })
-  }
-
-  function saveJob(){
-    $('.save-job-button').attr('disabled', true);
-    var job = {};
-
-    job.job_name = $('#job_name').val();
-    job.job_description = $('#job_description').val();
-
-    $.ajax({
-      url: 'rest/job/'+$('#job_id').val(),
-      type: 'PUT',
-      data: JSON.stringify(job),
-      contentType: "application/json",
-      dataType: "json",
-      success: function(result) {
-          $("#exampleModal").modal("hide");
-          $('.save-job-button').attr('disabled', false);
-          $("#job-list").html('<div class="text-center"><div class="spinner-border" role="status"> <span class="sr-only"></span></div></div>');
-          getJob(); // perf optimization
-          console.log(result);
-      }
-    });
-
-    console.log(job);
-  }
-</script>
+<script src="js/jquery.validate.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="js/job-service.js"></script>
+<script src="js/worker-service.js"></script>
+<script src="js/review-service.js"></script>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Dodatne informacije</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Uredi</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zatvori"></button>
       </div>
       <div class="modal-body">
@@ -132,10 +88,143 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
-        <button type="button" class="btn btn-primary save-job-button" onclick="saveJob()">Sačuvaj promjene</button>
+        <button id="updatejob" type="button" class="btn btn-primary save-job-button " onclick="JobService.update()">Sačuvaj promjene</button>
       </div>
     </div>
   </div>
 </div>
 
-</html>
+<!-- Add Modal -->
+<div class="modal fade" id="addJobModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="addJobForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dodaj posao</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zatvori"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+              <label>Ime posla</label>
+              <input name="job_name" type="text" class="form-control required" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>Opis posla</label>
+              <input name="job_description" type="text" class="form-control required" placeholder="">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+          <button type="submit" class="btn btn-primary">Potvrdi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="workerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Dostupni radnici</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+            <div id="job-workers" class="list-group">
+              <div class="list-group-item">
+                <button class="btn btn-danger btn-sm float-end">delete</button>
+                <button class="btn btn-success btn-sm float-end">review</button>
+                <p class="list-group-item-text"></p>
+              </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+          <form id="add-worker-form" class="form ">
+            <input name="worker_job_id" type="hidden" />
+            <div class="row" style="padding: 20px;">
+              <div class="col-sm-4">
+                <input name="worker_name" type="text" class="form-control required" placeholder="Ime i prezime">
+              </div>
+              <div class="col-sm-4">
+                <input name="worker_email" type="text" class="form-control" placeholder="Email">
+              </div>
+              <div class="col-sm-4">
+                <input name="worker_city" type="text" class="form-control required" placeholder="Grad">
+              </div>
+              <div class="col-sm-4">
+                <input name="worker_phone_number" type="text" class="form-control required"style="margin-top:10px;" placeholder="Telefon">
+              </div>
+              <div class="col-sm-4">
+                <input name="worker_address" type="text" class="form-control" style="margin-top:10px;" placeholder="Adresa">
+              </div>
+              <div class="col-sm-4">
+                <button type="submit" class="btn btn-primary mb-2" style="margin-top:10px;">Dodaj</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer"> </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Komentari</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+            <div id="worker-reviews" class="list-group">
+              <div class="list-group-item">
+                <button class="btn btn-danger btn-sm float-end">Obrisi</button>
+
+                <p class="list-group-item-text"></p>
+              </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+          <form id="add-review-form" class="form">
+
+            <input name="worker_id" type="hidden" />
+            <div class="row" style="padding: 20px;">
+              <div class="col-sm-3">
+                <select name="review_grade" class="form-control required">
+                  <option value="" selected disabled>Ocjena</option>
+                  <option>5</option>
+                  <option>4</option>
+                  <option>3</option>
+                  <option>2</option>
+                  <option>1</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <input name="review_comment" type="text" class="form-control" placeholder="Vaš komentar">
+              </div>
+
+              <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary mb-2" >Dodaj</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer"> </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  JobService.init();
+</script>
