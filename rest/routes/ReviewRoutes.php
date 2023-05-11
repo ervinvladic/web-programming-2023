@@ -12,12 +12,12 @@ Flight::route('GET /review/@id', function($id){
 
 Flight::route('POST /review', function(){
   $data = Flight::request()->data->getData();
-  Flight::json(Flight::reviewService()->post_review(Flight::get("user"),$data));
+  Flight::json(Flight::reviewService()->add($data));
 });
 
 
 Flight::route('DELETE /review/@id', function($id){
-  Flight::reviewService()->delete_review(Flight::get("user"),$id);
+  Flight::reviewService()->delete($id);
   Flight::json(["message" => "deleted"]);
 });
 
