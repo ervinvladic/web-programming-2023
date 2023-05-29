@@ -28,5 +28,4 @@ Flight::route('POST /register', function(){
       }
 });
 
-
 ?>
