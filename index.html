@@ -72,6 +72,7 @@
 <script src="js/job-service.js"></script>
 <script src="js/worker-service.js"></script>
 <script src="js/review-service.js"></script>
+<script src="js/user-service.js"></script>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -226,5 +227,10 @@
 </div>
 
 <script>
-  JobService.init();
+    var token = localStorage.getItem("token");
+  if (token){
+   JobService.init();
+  }else{
+   window.location.replace("login.html");
+  }
 </script>
