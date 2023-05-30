@@ -57,7 +57,7 @@
        style="background-image: url('slika.jpg'); height: 50vh">
        <form class="d-flex">
          <input class="form-control me-2" type="search" placeholder="Probajte: cleaner" aria-label="">
-         <button class="btn btn-primary btn-outline-light" type="submit">Pretraži</button>
+         <button class="btn btn-primary btn-outline-light" type="submit" >Pretraži</button>
        </form>
 
      </div>
@@ -85,6 +85,7 @@
 <script src="js/job-service.js"></script>
 <script src="js/worker-service.js"></script>
 <script src="js/user-service.js"></script>
+<script src="js/review-service.js"></script>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -148,6 +149,7 @@
             <div id="job-workers" class="list-group">
               <div class="list-group-item">
                 <button class="btn btn-danger btn-sm float-end">delete</button>
+                <button class="btn btn-success btn-sm float-end">review</button>
                 <p class="list-group-item-text"></p>
               </div>
 
@@ -176,6 +178,58 @@
               </div>
               <div class="col-sm-4">
                 <button type="submit" class="btn btn-primary mb-2" style="margin-top:10px;">Dodaj</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer"> </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Komentari</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+
+            <div id="worker-reviews" class="list-group">
+              <div class="list-group-item">
+                <button class="btn btn-danger btn-sm float-end">Obrisi</button>
+
+                <p class="list-group-item-text"></p>
+              </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+          <form id="add-review-form" class="form">
+
+            <input name="worker_id" type="hidden" />
+            <input name="user_id" type="hidden" />
+            <div class="row" style="padding: 20px;">
+              <div class="col-sm-3">
+                <select name="review_grade" class="form-control required">
+                  <option value="" selected disabled>Ocjena</option>
+                  <option>5</option>
+                  <option>4</option>
+                  <option>3</option>
+                  <option>2</option>
+                  <option>1</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <input name="review_comment" type="text" class="form-control" placeholder="Vaš komentar">
+              </div>
+
+              <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary mb-2" >Dodaj</button>
               </div>
             </div>
           </form>

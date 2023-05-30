@@ -4,6 +4,9 @@ var ReviewService = {
     $.ajax({
       url: 'rest/review',
       type: 'POST',
+      beforeSend: function(xhr){
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
       data: JSON.stringify(review),
       contentType: "application/json",
       dataType: "json",
@@ -24,26 +27,45 @@ var ReviewService = {
     $.ajax({
        url: "rest/worker/"+id+"/review",
        type: "GET",
+       beforeSend: function(xhr){
+         xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+       },
        success: function(data) {
          var html = "";
          for(let i = 0; i < data.length; i++){
            html += `<div class="list-group-item worker-review-`+data[i].id+`">
-             <button class="btn btn-danger btn-sm float-end  worker-review-`+data[i].id+`" onclick="ReviewService.delete(`+data[i].id+`)">Obriši</button>
+             <button class="btn btn-danger btn-sm float-end admin-panel worker-review-`+data[i].id+` hidden" onclick="ReviewService.delete(`+data[i].id+`)">Obriši</button>
 
-             <p class="list-group-item-text">`+'John Doe | '+data[i].posted+' | Ocjena: '+data[i].review_grade+' | Komentar: '+data[i].review_comment+`</p>
+             <p class="list-group-item-text">`+data[i].user+' | '+data[i].posted+' | Ocjena: '+data[i].review_grade+' | Komentar: '+data[i].review_comment+`</p>
            </div>`;
          }
          $("#worker-reviews").html(html);
 
+         let userInfo = UserService.parseJWT(localStorage.getItem("token"));
+
+         if(userInfo.r == "ADMIN"){
+           $('.admin-panel').removeClass("hidden");
+         }else{
+           for(let i = 0; i < data.length; i++){
+             if(data[i].user_id==userInfo.id){
+
+               $('.worker-review-'+data[i].id).removeClass("hidden");
+             }
+           }
+         }
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
          toastr.error(XMLHttpRequest.responseJSON.message);
+         UserService.logout();
        }
     });
 
+    let user = UserService.parseJWT(localStorage.getItem("token"));
 
     // note id populate and form validation
     $('#add-review-form input[name="worker_id"]').val(id);
+    $('#add-review-form input[name="user_id"]').val(user.id);
 
 
     $('#add-review-form').validate({
@@ -66,6 +88,9 @@ var ReviewService = {
     $.ajax({
       url: 'rest/review/'+id,
       type: 'DELETE',
+      beforeSend: function(xhr){
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
       success: function(result) {
         toastr.success("Deleted !");
       },
