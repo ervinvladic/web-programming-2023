@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+
   <title>Radnikba</title>
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
@@ -10,32 +11,79 @@
     .error {
       color: red;
     }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 
 <body>
   <main>
     <div class="container py-5 h-100" >
-      <div class="row d-flex justify-content-center align-items-center h-100">
+      <div id="login-form-container" >
+        <div class="d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
 
-          <div class="card shadow-2-strong" style="border-radius: 1rem; background-color: #C0C0C0;">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/brewster-mcleod-architects-1486154143.jpg" class="card-img-top" alt="...">
+
             <div class="card-body p-5 text-center">
+              <h5 class="card-title">Dobrodošli na Radnikba</h5>
               <form id="login-form">
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-4"style="margin-top:30px;">
                   <label class="form-label">Email adresa</label>
                   <input type="email" name="email" class="form-control" value="harunkunovac@gmail.com">
                 </div>
                 <div class="form-outline mb-4">
-                  <label class="form-label">Lozinka</label>
+                  <label class="form-label hidden">Lozinka</label>
                   <input type="password" name="password" class="form-control" value="1234">
                 </div>
                 <button type="submit" class="btn btn-success">Prijavi se</button>
+                <div>
+                <a href="#" onclick="UserService.showRegisterForm()" style="float:right;">Registruj se...</a>
+              </div>
               </form>
             </div>
           </div>
         </div>
       </div>
+      </div>
+      <div id="register-form-container" class="hidden">
+        <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/brewster-mcleod-architects-1486154143.jpg" class="card-img-top" alt="...">
+
+            <div class="card-body p-5 text-center">
+              <h5 class="card-title">Registruj se na Radnikba</h5>
+              <form id="register-form" style="margin-top:30px;">
+                <div class="form-outline mb-4">
+                  <input type="text" name="user_name" class="form-control required" placeholder="Ime" >
+                </div>
+                <div class="form-outline mb-4">
+                  <input type="text" name="user_surname" class="form-control required" placeholder="Prezime" >
+                </div>
+                <div class="form-outline mb-4"style="margin-top:30px;">
+                  <input type="email" name="email" class="form-control required" placeholder="Email adresa">
+                </div>
+                <div class="form-outline mb-4">
+                  <input type="password" name="password" class="form-control required" placeholder="Lozinka">
+                </div>
+                <div class="form-outline mb-4">
+                  <input type="text" name="city" class="form-control required" placeholder="Grad">
+                </div>
+                <button type="submit" class="btn btn-success">Registruj se</button>
+                <div>
+                <a href="#" onclick="UserService.showLoginForm()" style="float:right;">Nazad na Login</a>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     </div>
   </main>
   <script src="js/jquery-3.6.0.min.js"></script>
@@ -47,3 +95,4 @@
     UserService.init();
   </script>
 </body>
+</html>
