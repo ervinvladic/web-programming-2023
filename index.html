@@ -13,7 +13,6 @@
     .hidden {
       display: none;
     }
-
   </style>
 </head>
 
@@ -25,7 +24,15 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Moj Profil
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Uredi profil</a></li>
+            <li><a class="dropdown-item" href="#">Odabrani radnici</a></li>
+          </ul>
+        </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item">
@@ -36,6 +43,10 @@
               <a class="nav-link active" href="#" tabindex="page" aria-disabled="true">O nama</a>
             </li>
           </ul>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-outline-light" type="button" onclick="UserService.logout()">Odjavi se</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -43,17 +54,19 @@
 
   <main>
     <div class="bg-image img-fluid d-flex justify-content-center align-items-center"
-       style="background-image: url('slika.jpg'); height: 50vh; background-repeat:no-repeat;">
-       <h1 class="text-center text-light"style="margin-top:110px;">Dobrodošli na Radnikba!<br>Platforma za oglašavanje radnika</h1>
-    </div>
+       style="background-image: url('slika.jpg'); height: 50vh">
+       <form class="d-flex">
+         <input class="form-control me-2" type="search" placeholder="Probajte: cleaner" aria-label="">
+         <button class="btn btn-primary btn-outline-light" type="submit">Pretraži</button>
+       </form>
 
-
+     </div>
      <div class="container marketing" style="margin-top:30px;">
-
-        <div class="text-center d-grid gap-2 col-3 mx-auto">
-          <button id="addjob" class="btn btn-info text-light btn-lg " data-bs-toggle="modal" data-bs-target="#addJobModal">Dodaj posao</button>
+       <div class="row">
+        <div>
+          <button id="addjob" class="btn btn-primary btn-lg admin-panel hidden" data-bs-toggle="modal" data-bs-target="#addJobModal">Dodaj posao</button>
         </div>
-
+      </div>
        <div id="job-list" class="row">
          <div class="text-center">
            <div class="spinner-border text-primary" role="status">
@@ -71,7 +84,6 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="js/job-service.js"></script>
 <script src="js/worker-service.js"></script>
-<script src="js/review-service.js"></script>
 <script src="js/user-service.js"></script>
 
 <!-- Modal -->
@@ -136,7 +148,6 @@
             <div id="job-workers" class="list-group">
               <div class="list-group-item">
                 <button class="btn btn-danger btn-sm float-end">delete</button>
-                <button class="btn btn-success btn-sm float-end">review</button>
                 <p class="list-group-item-text"></p>
               </div>
 
@@ -145,23 +156,23 @@
         </div>
 
         <div class="row">
-          <form id="add-worker-form" class="form ">
+          <form id="add-worker-form" class="form admin-panel hidden">
             <input name="worker_job_id" type="hidden" />
             <div class="row" style="padding: 20px;">
               <div class="col-sm-4">
-                <input name="worker_name" type="text" class="form-control required" placeholder="Ime i prezime">
+                <input name="worker_name" type="text" class="form-control required" placeholder="Name">
               </div>
               <div class="col-sm-4">
                 <input name="worker_email" type="text" class="form-control" placeholder="Email">
               </div>
               <div class="col-sm-4">
-                <input name="worker_city" type="text" class="form-control required" placeholder="Grad">
+                <input name="worker_city" type="text" class="form-control required" placeholder="City">
               </div>
               <div class="col-sm-4">
-                <input name="worker_phone_number" type="text" class="form-control required"style="margin-top:10px;" placeholder="Telefon">
+                <input name="worker_phone_number" type="text" class="form-control required"style="margin-top:10px;" placeholder="Phone">
               </div>
               <div class="col-sm-4">
-                <input name="worker_address" type="text" class="form-control" style="margin-top:10px;" placeholder="Adresa">
+                <input name="worker_address" type="text" class="form-control" style="margin-top:10px;" placeholder="Address">
               </div>
               <div class="col-sm-4">
                 <button type="submit" class="btn btn-primary mb-2" style="margin-top:10px;">Dodaj</button>
@@ -174,63 +185,26 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Komentari</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-
-
-            <div id="worker-reviews" class="list-group">
-              <div class="list-group-item">
-                <button class="btn btn-danger btn-sm float-end">Obrisi</button>
-
-                <p class="list-group-item-text"></p>
-              </div>
-
-            </div>
-
-        </div>
-
-        <div class="row">
-          <form id="add-review-form" class="form">
-
-            <input name="worker_id" type="hidden" />
-            <div class="row" style="padding: 20px;">
-              <div class="col-sm-3">
-                <select name="review_grade" class="form-control required">
-                  <option value="" selected disabled>Ocjena</option>
-                  <option>5</option>
-                  <option>4</option>
-                  <option>3</option>
-                  <option>2</option>
-                  <option>1</option>
-                </select>
-              </div>
-              <div class="col-sm-6">
-                <input name="review_comment" type="text" class="form-control" placeholder="Vaš komentar">
-              </div>
-
-              <div class="col-sm-3">
-                <button type="submit" class="btn btn-primary mb-2" >Dodaj</button>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <div class="modal-footer"> </div>
-    </div>
-  </div>
-</div>
 
 <script>
-    var token = localStorage.getItem("token");
-  if (token){
-   JobService.init();
-  }else{
-   window.location.replace("login.html");
+var token = localStorage.getItem("token");
+if (token){
+
+ JobService.init();
+ loadMain();
+
+}else{
+ window.location.replace("login.html");
+}
+
+
+  function loadMain(){
+  let userInfo = UserService.parseJWT(localStorage.getItem("token"));
+  if(userInfo.r == "ADMIN"){
+
+    $(".admin-panel").removeClass("hidden");
+    }
   }
+
+
 </script>

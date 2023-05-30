@@ -13,7 +13,7 @@ var WorkerService = {
       success: function(result) {
         // append to the list
         $("#job-workers").append(`<div class="list-group-item job-worker-`+result.id+`">
-          <button class="btn btn-danger btn-sm float-end" onclick="WorkerService.delete(`+result.id+`)">Obriši</button>
+          <button class="btn btn-danger btn-sm float-end " onclick="WorkerService.delete(`+result.id+`)">Obriši</button>
           <p class="list-group-item-text">`+result.worker_name+', '+result.worker_city+', '+result.worker_phone_number+', '+result.worker_email+', '+result.worker_address+`</p>
         </div>`);
         toastr.success("Added !");
@@ -34,11 +34,16 @@ var WorkerService = {
          var html = "";
          for(let i = 0; i < data.length; i++){
            html += `<div class="list-group-item job-worker-`+data[i].id+`">
-             <button class="btn btn-danger btn-sm float-end" onclick="WorkerService.delete(`+data[i].id+`)">Obriši</button>
+             <button class="btn btn-danger btn-sm float-end admin-panel hidden" onclick="WorkerService.delete(`+data[i].id+`)">Obriši</button>
              <p class="list-group-item-text">`+data[i].worker_name+', '+data[i].worker_city+', '+data[i].worker_phone_number+', '+data[i].worker_email+', '+data[i].worker_address+`</p>
            </div>`;
          }
          $("#job-workers").html(html);
+         let userInfo = UserService.parseJWT(localStorage.getItem("token"));
+         if(userInfo.r == "ADMIN"){
+
+           $('.admin-panel').removeClass("hidden");
+         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
          toastr.error(XMLHttpRequest.responseJSON.message);
