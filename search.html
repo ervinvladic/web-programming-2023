@@ -96,6 +96,9 @@
         $.ajax({
             type: "GET",
             url: "rest/search/"+parameter,
+            beforeSend: function(xhr){
+              xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+            },
             success: function (data) {
               var html = `<thead>
                           <tr>
