@@ -11,5 +11,9 @@ class WorkerService extends BaseService{
   public function get_worker_by_job_id($job_id){
     return $this->dao->get_worker_by_job_id($job_id);
   }
+  
+  public function get_worker_by_search($search){
+    return $this->dao->get_worker_by_search($search);
+  }
 }
 ?>
