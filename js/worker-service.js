@@ -15,7 +15,7 @@ var WorkerService = {
         $("#job-workers").append(`<div class="list-group-item job-worker-`+result.id+`">
           <button class="btn btn-danger btn-sm float-end " onclick="WorkerService.delete(`+result.id+`)">Obriši</button>
           <button class="btn btn-success btn-sm float-end" onclick="ReviewService.list_by_worker_id(`+result.id+`)">Komentari</button>
-          <p class="list-group-item-text">`+'Name: '+result.worker_name+' | City: '+result.worker_city+' | Phone: '+result.worker_phone_number+' | Email: '+result.worker_email+' | Address: '+result.worker_address+`</p>
+          <p class="list-group-item-text">`+'Ime: '+result.worker_name+' | Grad: '+result.worker_city+' | Telefon: '+result.worker_phone_number+' | Email: '+result.worker_email+' | Adresa: '+result.worker_address+`</p>
         </div>`);
         toastr.success("Added !");
       }
@@ -37,7 +37,7 @@ var WorkerService = {
            html += `<div class="list-group-item job-worker-`+data[i].id+`">
              <button class="btn btn-danger btn-sm float-end admin-panel hidden" onclick="WorkerService.delete(`+data[i].id+`)">Obriši</button>
              <button class="btn btn-success btn-sm float-end" onclick="ReviewService.list_by_worker_id(`+data[i].id+`)">Komentari</button>
-             <p class="list-group-item-text">`+'Name: '+data[i].worker_name+' | City: '+data[i].worker_city+' | Phone: '+data[i].worker_phone_number+' | Email: '+data[i].worker_email+' | Address: '+data[i].worker_address+`</p>
+             <p class="list-group-item-text">`+'Ime: '+data[i].worker_name+' | Grad: '+data[i].worker_city+' | Telefon: '+data[i].worker_phone_number+' | Email: '+data[i].worker_email+' | Adresa: '+data[i].worker_address+`</p>
            </div>`;
          }
          $("#job-workers").html(html);
