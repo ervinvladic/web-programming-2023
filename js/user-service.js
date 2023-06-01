@@ -71,6 +71,9 @@ var UserService = {
         toastr.success("Added !");
         $("#register-form-container").addClass("hidden");
         $("#login-form-container").removeClass("hidden");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        toastr.error(XMLHttpRequest.responseJSON.message);
       }
     });
   }

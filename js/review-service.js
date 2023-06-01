@@ -61,11 +61,9 @@ var ReviewService = {
        }
     });
 
-    let user = UserService.parseJWT(localStorage.getItem("token"));
 
     // note id populate and form validation
     $('#add-review-form input[name="worker_id"]').val(id);
-    $('#add-review-form input[name="user_id"]').val(user.id);
 
 
     $('#add-review-form').validate({
