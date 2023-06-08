@@ -7,3 +7,11 @@
 ## Description
 
 Project from the course **IT 207: Introduction to Web Programming** 
+
+## Credentials for logging in as a user:
+- email: ervinvladic@hotmail.com
+- password: 0000
+
+## Credentials for logging in as admin:
+- email: admin@gmail.com
+- password: 0000
