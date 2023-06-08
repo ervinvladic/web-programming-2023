@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `radnikba` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `radnikba`;
 -- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
 --
 -- Host: localhost    Database: radnikba
@@ -29,7 +27,7 @@ CREATE TABLE `job` (
   `job_name` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `job_description` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +36,7 @@ CREATE TABLE `job` (
 
 LOCK TABLES `job` WRITE;
 /*!40000 ALTER TABLE `job` DISABLE KEYS */;
-INSERT INTO `job` VALUES (1,'Građevinar','Poslovi vezani za građenje'),(9,'Vrtlar','Uređivanje vrtova i prirode'),(25,'Električar','Rad sa električnim instalacijama'),(29,'Vodoinstalater','Popravak vodovodnih instalacija');
+INSERT INTO `job` VALUES (1,'Gradjevinar','Poslovi vezani za gradjenje'),(9,'Vrtlar','Uredjivanje vrtova i prirode'),(25,'Elektricar','Rad sa elektricnim instalacijama'),(29,'Vodoinstalater','Popravak vodovodnih instalacija'),(31,'Keramicar','Radnik zaduzen za postavljanje keramickih plocica'),(33,'Stolar','Popravka drvenih stolova i stolica');
 /*!40000 ALTER TABLE `job` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +55,7 @@ CREATE TABLE `review` (
   `review_comment` varchar(2048) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `posted` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +64,6 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES (7,37,6,4,'sarajevo','2022-07-21 15:54:01'),(8,37,6,5,'hahahahha','2022-07-21 15:54:01'),(28,37,1,5,'top','2022-07-21 15:54:01'),(29,37,4,5,'betonn','2022-07-21 15:54:01'),(31,38,6,5,'Zna posao','2022-07-21 15:54:01'),(32,37,4,4,'hhhh','2022-07-21 15:58:57'),(36,37,4,4,'bzvz','2022-07-21 16:06:23');
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,10 +81,10 @@ CREATE TABLE `users` (
   `user_surname` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `city` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `role` varchar(256) COLLATE utf8_bin DEFAULT 'USER',
+  `role` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'USER',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +93,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'f271d150278f61fe464bb7949ec8fd5c','Ervin','Vladic','Sarajevo','ervinvladic@hotmail.com','USER'),(4,'81dc9bdb52d04dc20036dbd8313ed055','Harun','Kunovac','Tuzla','harunkunovac@gmail.com','USER'),(6,'b59c67bf196a4758191e42f76670ceba','Admin','','Sarajevo','harun.kunovac@stu.ibu.edu.ba','ADMIN'),(15,'81dc9bdb52d04dc20036dbd8313ed055','hara','kule','Sarajevo','hara@kule.com','USER');
+INSERT INTO `users` VALUES (48,'4a7d1ed414474e4033ac29ccb8653d9b','Ervin','Vladic','Sarajevo','ervinvladic@hotmail.com','USER'),(49,'4e33636e8defc426d0ef48f3478a1330','Tin','Radisic','Sarajevo','radisictin98@gmail.com','USER'),(50,'4a7d1ed414474e4033ac29ccb8653d9b','Admin','Admin','Sarajevo','admin@gmail.com','ADMIN');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +115,7 @@ CREATE TABLE `worker` (
   PRIMARY KEY (`id`),
   KEY `worker_job_idx` (`worker_job_id`),
   CONSTRAINT `worker_job` FOREIGN KEY (`worker_job_id`) REFERENCES `job` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +124,7 @@ CREATE TABLE `worker` (
 
 LOCK TABLES `worker` WRITE;
 /*!40000 ALTER TABLE `worker` DISABLE KEYS */;
-INSERT INTO `worker` VALUES (37,9,'Harun','Sarajevo','0603442756','bzvz','harun.kunovac@gmail.com'),(38,9,'Kara','Mostar','062343213','Adresa 123','brick.layer@gmail.com');
+INSERT INTO `worker` VALUES (42,9,'Ervin Vladic','Tuzla','0000000','Munira Gavrankapetanovica 10','blabla@gmail.com'),(45,9,'Test Tester','City','0000000','Test Testera 10','test.tester@gmail.com'),(50,25,'Ervin Vladic','Sarajevo','062759523','Munira Gavrankapetanovica 10','ervinvladic@hotmail.com');
 /*!40000 ALTER TABLE `worker` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -140,4 +137,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-23 16:29:17
+-- Dump completed on 2023-06-08 17:50:27
